@@ -4,17 +4,13 @@ const Category = require("../models/Category");
 
 exports.createTask = async (req, res) => {
     const { title, description, categoryId } = req.body;
-  
     if (!title) {
       return res.status(400).json({ message: "Le titre de la tâche est requis" });
     }
-  
     try {
       console.log(`Requête reçue pour créer une tâche:`);
       console.log(`Titre: ${title}, Description: ${description}, Catégorie ID: ${categoryId}`);
-  
-      // Vérifier si la catégorie existe et appartient à l'utilisateur
-      if (categoryId) {
+        if (categoryId) {
         console.log(`Vérification de la catégorie avec l'ID: ${categoryId}`);
         const category = await Category.findOne({ _id: categoryId, userId: req.userId });
         
@@ -34,7 +30,6 @@ exports.createTask = async (req, res) => {
       });
       
       await task.save();
-      
       console.log(`Tâche créée avec succès: ${task.title}`);
       res.status(201).json(task);
     } catch (error) {
